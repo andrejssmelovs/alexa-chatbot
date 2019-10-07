@@ -28,17 +28,17 @@ namespace Microsoft.BotBuilderSamples
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Add the HttpClientFactory to be used for the QnAMaker calls.
-            // services.AddHttpClient();
+            services.AddHttpClient();
 
             // Create the Bot Framework Adapter with error handling enabled.
-            //services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
-            services.AddSingleton(Configuration);
-            services.AddBot<QnABot>(options => {
-                options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
-            });
+            services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
+            //services.AddSingleton(Configuration);
+            //services.AddBot<QnABot>(options => {
+           //     options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
+          //  });
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            //services.AddTransient<IBot, QnABot>();
+            services.AddTransient<IBot, QnABot>();
 
             services.AddAlexaBot<QnABot>(options => {
                 options.AlexaOptions.ValidateIncomingAlexaRequests = true;
@@ -49,14 +49,14 @@ namespace Microsoft.BotBuilderSamples
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
-            //else
-            //{
-            //    app.UseHsts();
-            //}
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
+            }
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
