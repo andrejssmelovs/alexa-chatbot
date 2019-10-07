@@ -34,7 +34,7 @@ namespace Microsoft.BotBuilderSamples
         }
     }
 
-    [Route("api/messages")]
+    [Route("api/skillrequests")]
     
     public class AlexaBotController : ControllerBase
     {
