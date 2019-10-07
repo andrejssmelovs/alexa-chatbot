@@ -31,7 +31,7 @@ namespace Microsoft.BotBuilderSamples
             //services.AddHttpClient();
 
             // Create the Bot Framework Adapter with error handling enabled.
-            //services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
+            services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
             //services.AddSingleton(Configuration);
             //services.AddBot<QnABot>(options => {
            //     options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
