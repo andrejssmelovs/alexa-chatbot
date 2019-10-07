@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Threading.Tasks;
+using Bot.Builder.Community.Adapters.Alexa.Integration.AspNet.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
@@ -32,4 +33,28 @@ namespace Microsoft.BotBuilderSamples
             await _adapter.ProcessAsync(Request, Response, _bot);
         }
     }
+
+    [Route("api/messages")]
+    
+    public class AlexaBotController : ControllerBase
+    {
+        private readonly IAlexaHttpAdapter _adapter;
+        private readonly IBot _bot;
+
+        public AlexaBotController(IAlexaHttpAdapter adapter, IBot bot)
+        {
+            _adapter = adapter;
+            _bot = bot;
+        }
+
+        [HttpPost]
+        public async Task PostAsync()
+        {
+            // Delegate the processing of the HTTP POST to the adapter.
+            // The adapter will invoke the bot.
+            await _adapter.ProcessAsync(Request, Response, _bot);
+        }
+    }
+
+
 }

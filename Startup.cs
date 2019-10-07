@@ -34,15 +34,25 @@ namespace Microsoft.BotBuilderSamples
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
             //services.AddSingleton(Configuration);
             //services.AddBot<QnABot>(options => {
-           //     options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
-          //  });
+            //     options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
+            //  });
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            //services.AddTransient<IBot, QnABot>();
+            services.AddTransient<IBot, QnABot>();
 
-            services.AddAlexaBot<QnABot>(options => {
-                options.AlexaOptions.ValidateIncomingAlexaRequests = true;
-                options.AlexaOptions.ShouldEndSessionByDefault = false;
+            services.AddSingleton<IAlexaHttpAdapter>((sp) =>
+            {
+                var alexaHttpAdapter = new AlexaHttpAdapter(validateRequests: true)
+                {
+                    OnTurnError = async (context, exception) =>
+                    {
+                        await context.SendActivityAsync("Sorry, something went wrong");
+                    },
+                    ShouldEndSessionByDefault = true,
+                    ConvertBotBuilderCardsToAlexaCards = false
+                };
+
+                return alexaHttpAdapter;
             });
         }
 
@@ -58,10 +68,10 @@ namespace Microsoft.BotBuilderSamples
          //       app.UseHsts();
         //    }
 
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-            app.UseAlexa();
-            app.UseMvc();
+            app.UseDefaultFiles()
+            .UseStaticFiles()
+            .UseAlexa()
+            .UseMvc();
         }
     }
 }
