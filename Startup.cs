@@ -38,7 +38,7 @@ namespace Microsoft.BotBuilderSamples
           //  });
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, QnABot>();
+            //services.AddTransient<IBot, QnABot>();
 
             services.AddAlexaBot<QnABot>(options => {
                 options.AlexaOptions.ValidateIncomingAlexaRequests = true;
@@ -49,14 +49,14 @@ namespace Microsoft.BotBuilderSamples
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
+            //if (env.IsDevelopment())
+            //{
+           //     app.UseDeveloperExceptionPage();
+           // }
+         //   else
+          //  {
+         //       app.UseHsts();
+        //    }
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
