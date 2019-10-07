@@ -34,27 +34,7 @@ namespace Microsoft.BotBuilderSamples
         }
     }
 
-    [Route("api/skillrequests")]
     
-    public class AlexaBotController : ControllerBase
-    {
-        private readonly IAlexaHttpAdapter _adapter;
-        private readonly IBot _bot;
-
-        public AlexaBotController(IAlexaHttpAdapter adapter, IBot bot)
-        {
-            _adapter = adapter;
-            _bot = bot;
-        }
-
-        [HttpPost]
-        public async Task PostAsync()
-        {
-            // Delegate the processing of the HTTP POST to the adapter.
-            // The adapter will invoke the bot.
-            await _adapter.ProcessAsync(Request, Response, _bot);
-        }
-    }
 
 
 }

@@ -40,19 +40,10 @@ namespace Microsoft.BotBuilderSamples
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, QnABot>();
 
-            services.AddSingleton<IAlexaHttpAdapter>((sp) =>
+            services.AddAlexaBot<QnABot>(options =>
             {
-                var alexaHttpAdapter = new AlexaHttpAdapter(validateRequests: true)
-                {
-                    OnTurnError = async (context, exception) =>
-                    {
-                        await context.SendActivityAsync("Sorry, something went wrong");
-                    },
-                    ShouldEndSessionByDefault = true,
-                    ConvertBotBuilderCardsToAlexaCards = false
-                };
-
-                return alexaHttpAdapter;
+                options.AlexaOptions.ValidateIncomingAlexaRequests = true;
+                options.AlexaOptions.ShouldEndSessionByDefault = false;
             });
         }
 
